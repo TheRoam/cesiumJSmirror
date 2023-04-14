@@ -1,0 +1,132 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.96/Build/Cesium/Cesium.js"></script>
+<link href="https://cesium.com/downloads/cesiumjs/releases/1.96/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+</head>
+<body style="margin:0;width:100vw;height:100vh;display:flex;flex-direction:row;font-family:Arial">
+<div style="height:100%;width:50%;" id="cesiumContainer1">
+	<span style="display:block;position:absolute;z-Index:1001;top:0;background-color: rgba(0, 0, 0, 0.5);color:darkorange;padding:13px">06/04/2023</span>
+	<span style="display:block;position:absolute;z-Index:1001;bottom:10%;background-color: rgba(0, 0, 0, 0.5);color:white;padding:13px;font-size:14px;user-select:none;">
+		<b><u>Cesium JS mirror v1.0</u></b><br>
+    · Use the <b>left panel</b> to control the camera<br>
+		· <b>Click+drag</b> to move the position<br>
+		· <b>Control+drag</b> to rotate camera<br>
+		· <b>Scroll</b> to zoom in/out<br>
+		<span><a style="color:darkorange" href="https://theroamingworkshop.cloud" target="_blank">© The Roaming Workshop <span id="y"></span></a></span>
+		</span>
+</div>
+<div style="height:100%;width:50%;background-color:black;" id="cesiumContainer2">
+	<span style="display:block;position:absolute;z-Index:1001;top:0;background-color: rgba(0, 0, 0, 0.5);color:darkorange;padding:13px">21/03/2023</span>
+</div>
+<script>
+	// INSERT ACCESS TOKEN
+    // Your access token can be found at: https://cesium.com/ion/tokens.
+    // Replace `your_access_token` with your Cesium ion access token.
+
+    Cesium.Ion.defaultAccessToken = `your_access_token`;
+
+	// Invoke LEFT view
+    // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
+
+    const viewerL = new Cesium.Viewer('cesiumContainer1', {
+		terrainProvider: new Cesium.CesiumTerrainProvider({
+			url: Cesium.IonResource.fromAssetId(1640615),//get your asset ID from "My Assets" menu
+		}),	  
+		baseLayerPicker: true,
+		infoBox: false,
+    });    
+
+	// Add Landsat imagery
+	const layerL = viewerL.imageryLayers.addImageryProvider(
+	  new Cesium.IonImageryProvider({ assetId: 1640455 })//get your asset ID from "My Assets" menu
+	);
+	
+	// Hide bottom widgets
+	viewerL.timeline.container.style.visibility = "hidden";
+	viewerL.animation.container.style.visibility = "hidden";
+
+    // Fly the camera at the given longitude, latitude, and height.
+    viewerL.camera.flyTo({
+      destination : Cesium.Cartesian3.fromDegrees(-6.7200, 43.175, 6000),
+      orientation : {
+        heading : Cesium.Math.toRadians(15.0),
+        pitch : Cesium.Math.toRadians(-20.0),
+      }
+    });
+    
+    // Invoke RIGHT view
+
+    const viewerR = new Cesium.Viewer('cesiumContainer2', {
+		terrainProvider: new Cesium.CesiumTerrainProvider({
+			url: Cesium.IonResource.fromAssetId(1640502),//get your asset ID from "My Assets" menu
+		}),	  
+		baseLayerPicker: true,
+		infoBox: false,
+    });    
+
+	// Add Landsat imagery
+	const layerR = viewerR.imageryLayers.addImageryProvider(
+	  new Cesium.IonImageryProvider({ assetId: 1640809 })
+	);
+	
+	// Hide bottom widgets
+	viewerR.timeline.container.style.visibility = "hidden";
+	viewerR.animation.container.style.visibility = "hidden";
+
+    // Fly the camera at the given longitude, latitude, and height.
+    viewerR.camera.flyTo({
+      destination : Cesium.Cartesian3.fromDegrees(-6.7200, 43.175, 6000),
+      orientation : {
+        heading : Cesium.Math.toRadians(15.0),
+        pitch : Cesium.Math.toRadians(-20.0),
+      }
+    });
+    
+    // Invoke camera tracker
+    //define a loop
+    var camInterval=setInterval(function(){
+
+	},200);
+    clearInterval(camInterval);
+    
+    document.onmousedown=trackCam();
+    document.ondragstart=trackCam();
+    
+    //define loop function (read properties from left camera and copy to right camera)
+    function trackCam(){
+		camInterval=setInterval(function(){
+			viewerR.camera.setView({
+				destination: Cesium.Cartesian3.fromElements(
+					  viewerL.camera.position.x,
+					  viewerL.camera.position.y,
+					  viewerL.camera.position.z
+					),
+				orientation: {
+					direction : new Cesium.Cartesian3(
+						viewerL.camera.direction.x,
+						viewerL.camera.direction.y,
+						viewerL.camera.direction.z),
+					up : new Cesium.Cartesian3(
+						viewerL.camera.up.x,
+						viewerL.camera.up.y,
+						viewerL.camera.up.z)
+				},
+			});
+		},50);
+	};
+	//stop loop listeners (release mouse or stop scroll)
+	document.onmouseup=function(){
+		clearInterval(camInterval);
+	};
+	document.ondragend=function(){
+		clearInterval(camInterval);
+	};
+	
+	//keep the copyright date updated
+	var y=new Date(Date.now());
+	document.getElementById("y").innerHTML=y.getFullYear();
+  </script>
+</div>
+</html>
