@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-
+<title>Cesium JS mirror v1.0</title>
 <script src="https://cesium.com/downloads/cesiumjs/releases/1.96/Build/Cesium/Cesium.js"></script>
 <link href="https://cesium.com/downloads/cesiumjs/releases/1.96/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 </head>
@@ -10,7 +10,7 @@
 	<span style="display:block;position:absolute;z-Index:1001;top:0;background-color: rgba(0, 0, 0, 0.5);color:darkorange;padding:13px">06/04/2023</span>
 	<span style="display:block;position:absolute;z-Index:1001;bottom:10%;background-color: rgba(0, 0, 0, 0.5);color:white;padding:13px;font-size:14px;user-select:none;">
 		<b><u>Cesium JS mirror v1.0</u></b><br>
-    · Use the <b>left panel</b> to control the camera<br>
+		· Use the <b>left panel</b> to control the camera<br>
 		· <b>Click+drag</b> to move the position<br>
 		· <b>Control+drag</b> to rotate camera<br>
 		· <b>Scroll</b> to zoom in/out<br>
@@ -18,14 +18,14 @@
 		</span>
 </div>
 <div style="height:100%;width:50%;background-color:black;" id="cesiumContainer2">
-	<span style="display:block;position:absolute;z-Index:1001;top:0;background-color: rgba(0, 0, 0, 0.5);color:darkorange;padding:13px">21/03/2023</span>
+	<span style="display:block;position:absolute;z-Index:1001;top:0;background-color: rgba(0, 0, 0, 0.5);color:darkorange;padding:13px">17/02/2023</span>
 </div>
 <script>
 	// INSERT ACCESS TOKEN
     // Your access token can be found at: https://cesium.com/ion/tokens.
     // Replace `your_access_token` with your Cesium ion access token.
 
-    Cesium.Ion.defaultAccessToken = `your_access_token`;
+    Cesium.Ion.defaultAccessToken = 'your_access_token';
 
 	// Invoke LEFT view
     // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
@@ -68,7 +68,7 @@
 
 	// Add Landsat imagery
 	const layerR = viewerR.imageryLayers.addImageryProvider(
-	  new Cesium.IonImageryProvider({ assetId: 1640809 })
+	  new Cesium.IonImageryProvider({ assetId: 1640977 })
 	);
 	
 	// Hide bottom widgets
